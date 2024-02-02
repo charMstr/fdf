@@ -1,0 +1,16 @@
+im doing a 3d modeling software.
+raster data Vs. vector data (point cloud data).
+
+function multiply matrix
+function debug matrix (diplay a matrix on the screen)
+
+MATRIX FUNCTIONS:
+translation
+rotation (autour de certain axe: x, y, et z)
+scale
+multiplcation:
+	- par une matrice
+	- par un scalaire
+
+
+
