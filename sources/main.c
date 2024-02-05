@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 20:00:32 by charmstr          #+#    #+#             */
-/*   Updated: 2024/01/31 23:50:32 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/03 01:06:32 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "../minilibx_opengl/mlx.h"
 #include "../libft/libft.h"
 #include <stdlib.h>
+#include "../includes/debug.h"
 
 /*
 ** initialise all the required elements by the mlx for connection with display
@@ -55,16 +56,24 @@ int	main(int argc __attribute__((unused)), char **argv __attribute__((unused)))
 	t_fdf fdf;
 
 	init_struct_fdf(&fdf);
-	//usefull if i want to have the size of the window parsed in my config file.
-	//should be parsed from file later on
-	// [Mon 29/01/2024 at 20:46:10]
-	//TODO (charmstr): do a function here for parsing this matter.
+	//ARBITRARY SIZE FOR WINDOW CREATION
 	fdf.window.height = 500;
 	fdf.window.width = 800;
 
+	if (argc >2)
+		return (print_err("no more than 2 args"));
+	else if (argc <2)
+		return (print_err("need one arg: the file containing the map data. ex: 42.fdf"));
+
+	if(!(open_file_and_parse_data(argv[1], &fdf.raster_data)))
+	{
+		exit_properly(&fdf, EXIT_FAILURE);
+	}
+	//DEBUG
+	debug_raster_data(&fdf.raster_data);
 	if (!init_mlx_parameters(&fdf))
 	{
-		return (EXIT_FAILURE);
+		exit_properly(&fdf, EXIT_FAILURE);
 	}
 	fdf_set_parameters_and_start_loop(&fdf);
 }

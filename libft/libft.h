@@ -6,7 +6,7 @@
 /*   By: charmstr <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/04 18:37:31 by charmstr          #+#    #+#             */
-/*   Updated: 2020/01/30 15:57:52 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/03 01:04:12 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
 char				*ft_strnstr(const char *haystack, const char *needle, \
 		size_t len);
 int					ft_atoi(const char *str);
-int					ft_size_num_base(int num, int base);
+int					ft_size_num_base_signed(void *num, int base, int signed_, \
+		int absolute);
 
 void				*ft_calloc(size_t count, size_t size);
 char				*ft_strdup(const char *s1);

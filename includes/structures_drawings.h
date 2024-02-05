@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/02 13:07:18 by charmstr          #+#    #+#             */
-/*   Updated: 2024/01/31 23:25:16 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/02 21:28:22 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,16 @@
 
 typedef struct	s_point
 {
-	float		x;
-	float		y;
+	int		x;
+	int		y;
 }				t_point;
+
+typedef struct s_3dpoint
+{
+	int x;
+	int y;
+	int z;	
+}				t_3dpoint;
 
 typedef struct	s_line
 {

@@ -13,4 +13,13 @@ multiplcation:
 	- par un scalaire
 
 
+idea to print the basis vector:
+have i, and j
+and k is the cross product of i and j.
+projection of all of them.
+
+
+to get the coordinate of a vector, for example on the z axis
+we take its dot product on the basis k vector.
+
 

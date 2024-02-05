@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 20:04:32 by charmstr          #+#    #+#             */
-/*   Updated: 2024/01/31 23:37:21 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/02 23:52:39 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,21 @@ t_square	build_square(t_point p1, int width, int height, int color);
 void		color_pix(t_img img, int y, int x, int color);
 
 
-void	init_struct_fdf(t_fdf *fdf);
-t_point	init_point_xy(float x, float y);
+void		init_struct_fdf(t_fdf *fdf);
+t_point		init_point_xy(float x, float y);
+
+int			open_file_and_parse_data(char* file_name, t_raster_data *raster_data);
+t_3dpoint	create_3dpoint(int x, int y, int z);
+
+t_3dpoint	create_3dpoint(int x, int y, int z);
+
+//DEBUG
+void debug_array_of_3dpoint(t_3dpoint *array_of_points, int length_array);
+void debug_3dpoint(t_3dpoint point);
+
+int			check_valid_input_data_file_and_fetch_size(char *file_name, t_raster_data *raster_data);
+int			check_cell_is_valid(char *str, t_raster_data *raster_data);
+int			check_line_is_valid(char *line, t_raster_data *raster_data);
+int			check_line_is_valid_assist(t_raster_data *raster_data, int points_per_row);
 
 #endif

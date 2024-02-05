@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2024/01/31 23:37:42 by charmstr         ###   ########.fr        #
+#    Updated: 2024/02/03 00:29:17 by charmstr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,10 +64,12 @@ LIB_PATH = -L ./libft/ -L ./minilibx_opengl/
 ########################### HEADER FILES ######################################
 ###############################################################################
 H_FILES = fdf\
+		  get_next_line\
 		  error_handling\
 		  structures_fdf\
 		  defines_fdf\
 		  structures_drawings\
+		  debug\
 		  
 
 #H_FILES_BONUS = #somefile\
@@ -87,6 +89,8 @@ INCLUDES := $(INCLUDES) ./libft/libft.h
 ########################### SRC/OBJ & BONUS FILES #############################
 ###############################################################################
 SRC_FILES = main\
+			get_next_line\
+			get_next_line_utils\
 			error_handling\
 			hooks_set_functions\
 			exit_properly\
@@ -95,7 +99,11 @@ SRC_FILES = main\
 			draw_square\
 			draw_line1\
 			draw_line2\
+			3dpoints\
 			init_structures\
+			parse_map\
+			parse_map_assist\
+			debug\
 
 			#ft_printf\
 			

@@ -6,12 +6,14 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 20:20:59 by charmstr          #+#    #+#             */
-/*   Updated: 2024/01/31 23:16:34 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/02 21:53:18 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_FDF_H
 # define STRUCTURES_FDF_H
+
+# include "../includes/structures_drawings.h"
 
 typedef struct		s_img
 {
@@ -37,6 +39,13 @@ typedef struct		s_window
 	void			*win_ptr;
 }					t_window;
 
+typedef struct		s_raster_data
+{
+	t_3dpoint 		**map;
+	int				nrows;
+	int				ncols;
+}					t_raster_data;
+
 typedef struct		s_fdf
 {
 	void			*mlx_ptr;
@@ -44,7 +53,7 @@ typedef struct		s_fdf
 	t_screen		screen;
 	unsigned int	stop_program:1 ;
 	t_img			buffer;
+	t_raster_data	raster_data;
 }					t_fdf;
-
 
 #endif
