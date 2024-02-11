@@ -6,12 +6,12 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 22:20:28 by charmstr          #+#    #+#             */
-/*   Updated: 2024/02/03 00:11:34 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/10 23:03:47 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-** this file takes care of loading into the structure t_raster_data the number
+** this file takes care of loading into the structure t_object the number
 ** of colons ncols, and the number of rows nrows. It will also make sure the
 ** data is in a correct format (for example no asciii characters...)
 */
@@ -32,17 +32,18 @@
 ** 			0 error
 */
 
-int check_cell_is_valid(char *str, t_raster_data *raster_data)
+int check_cell_is_valid(char *str, t_object *object)
 {
 	int i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (!(ft_isdigit(str[i])))
+		if (!ft_isdigit(str[i]) && str[i] != '-')
 		{
-		printf("line: %d\n", raster_data->nrows);
+		printf("line: %d\n", object->nrows);
 			print_err("invalid line: containing character other than number");
+			ft_putstr_fd(str, 2);
 			return(0);
 		}
 		i++;
@@ -60,19 +61,19 @@ int check_cell_is_valid(char *str, t_raster_data *raster_data)
 ** return 0 if line contains either 0 data points, or a wrong number
 ** compared to previous lines.
 */
-int check_line_is_valid_assist(t_raster_data *raster_data, int points_per_row)
+int check_line_is_valid_assist(t_object *object, int points_per_row)
 {
 	if (points_per_row == 0)
 	{
-		printf("line: %d\n", raster_data->nrows);
+		printf("line: %d\n", object->nrows);
 		print_err("this line containes no data points in data file provided");
 		return (0);
 	}
-	if (raster_data->ncols == 0)
-		raster_data->ncols = points_per_row;
-	else if (raster_data->ncols != points_per_row)
+	if (object->ncols == 0)
+		object->ncols = points_per_row;
+	else if (object->ncols != points_per_row)
 	{
-		printf("line: %d\n", raster_data->nrows);
+		printf("line: %d\n", object->nrows);
 		print_err("line has not the correct number of data points");
 		return (0);
 	}
@@ -84,7 +85,7 @@ int check_line_is_valid_assist(t_raster_data *raster_data, int points_per_row)
 ** this function makes sure one single line of the file contaning the map is
 ** valid
 */
-int check_line_is_valid(char *line, t_raster_data *raster_data)
+int check_line_is_valid(char *line, t_object *object)
 {
 	int i;
 	char **split;
@@ -97,7 +98,7 @@ int check_line_is_valid(char *line, t_raster_data *raster_data)
 	}
 	while (split[i])
 	{
-		if (!check_cell_is_valid(split[i], raster_data))
+		if (!check_cell_is_valid(split[i], object))
 		{
 			ft_free_2d(split);
 			return (0);
@@ -105,7 +106,7 @@ int check_line_is_valid(char *line, t_raster_data *raster_data)
 		i++;
 	}
 	ft_free_2d(split);
-	if (!check_line_is_valid_assist(raster_data, i))
+	if (!check_line_is_valid_assist(object, i))
 		return (0);
 	return (1); //OK
 }
@@ -120,7 +121,7 @@ int check_line_is_valid(char *line, t_raster_data *raster_data)
 ** characters ...)
 */
 
-int check_valid_input_data_file_and_fetch_size(char *file_name, t_raster_data *raster_data)
+int check_valid_input_data_file_and_fetch_size(char *file_name, t_object *object)
 {
 	int fd1;
 	char *next_line;
@@ -131,12 +132,12 @@ int check_valid_input_data_file_and_fetch_size(char *file_name, t_raster_data *r
 	next_line = NULL;
 	while ((res_gnl = get_next_line(fd1, &next_line)) > 0)
 	{
-		if (!(check_line_is_valid(next_line, raster_data)))
+		if (!(check_line_is_valid(next_line, object)))
 		{
 			res_gnl = -1;
 			break;
 		}
-		raster_data->nrows++;
+		object->nrows++;
 		free(next_line);
 	}
 	close(fd1);
@@ -145,7 +146,7 @@ int check_valid_input_data_file_and_fetch_size(char *file_name, t_raster_data *r
 		free(next_line);
 		return (0);
 	}
-	if (!(raster_data->map = (t_3dpoint**)malloc(sizeof(*(raster_data->map)) * raster_data->nrows)))
+	if (!(object->original = (t_3dpoint**)malloc(sizeof(t_3dpoint*) * object->nrows)))
 		return (0);
 	return (1);
 }

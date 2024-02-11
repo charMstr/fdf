@@ -1,25 +1,69 @@
-im doing a 3d modeling software.
-raster data Vs. vector data (point cloud data).
-
-function multiply matrix
-function debug matrix (diplay a matrix on the screen)
-
-MATRIX FUNCTIONS:
-translation
-rotation (autour de certain axe: x, y, et z)
-scale
-multiplcation:
-	- par une matrice
-	- par un scalaire
-
 
 idea to print the basis vector:
 have i, and j
-and k is the cross product of i and j.
-projection of all of them.
+and k is the cross product of i and j. ??
+projection of all of them. ??
+
+BASIC START:
+origin of the viewing frustum = apex.
+orient the line of sight (the view direction) along the negative z-axis
+place canevas 1 unit away from the origin.
 
 
-to get the coordinate of a vector, for example on the z axis
-we take its dot product on the basis k vector.
+
+MATRIX FUNCTIONS:
+
+TODO rotate (rotation autour de certain axe: x, y, et z)
+
+√ translate (translation)
+√ scale
+√ multiplcation:
+	√ - par une matrice (called matrice product)
+	√ - par un scalaire
 
 
+√ vectors_length (norm or magnitude)
+	return racine carre de (x*x + y*y + z*z)
+√ vector_addition
+√ vector_soustraction
+√ vector_multiplication_by_scalar
+
+√ normalise vector:
+ We first compute the vector's length and divide each vector's coordinates by this length. 
+ 	/!\ if length is zero...
+	optimization: multiply by inverse of length stored in a temporary variable.
+
+√ dot_product:
+	return a.x * b.x + a.y * b.y + a.z * b.z
+
+√ cross_product:
+a x b --> c
+	cx = ay * bz - az * by
+	cy = az * bx - ax * bz
+	cz = ax * by - ay * bx
+
+√ matrix_product
+	only possible if m1 has n columns and m2 has n rows.
+	see: https://www.scratchapixel.com/lessons/mathematics-physics-for-computer-graphics/geometry/matrices.html
+	/!\ not commutative
+
+scaling_matrix (to scale a point's coordinates).
+	// multiplying P by the scaling matrix
+	Ptransformed.x = P.x * Sx + P.y * 0  + P.z * 0  = P.x * Sx
+	Ptransformed.y = P.x * 0  + P.y * Sy + P.z * 0  = P.y * Sy
+	Ptransformed.z = P.x * 0  + P.y * 0  + P.z * Sz = P.z * Sz
+
+rotation matrix. if we rotate axe x
+
+
+// first step:
+	draw the map onto the screen
+1/ have a world view cordinate system
+2/ have a camera positioned into the world view coordinate system.
+3/ make a caneva positioned just 1 in front of the camera coordinate
+5/ translate the coordinate of my object backward /behind the canevas.
+4/ draw on the canveva
+
+//second though.
+start rendering image on screen.
+draw the map, then start to scale it (zoom in and out).

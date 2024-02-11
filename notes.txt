@@ -1,0 +1,10 @@
+im doing a 3d modeling software.
+raster data Vs. vector data (point cloud data).
+
+to get the coordinate of a vector, for example on the z axis
+we take its dot product on the basis k vector.
+
+ideas/tips:
+typedef float Point(x, y, z);
+
+

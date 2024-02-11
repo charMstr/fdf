@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 19:36:32 by charmstr          #+#    #+#             */
-/*   Updated: 2024/02/03 01:36:25 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/09 11:34:46 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@
 **
 ** return:
 ** 	0 if failed
-** 	1 OK (one row of 3d points added in raster_data->map)
+** 	1 OK (one row of 3d points added in object->map)
 */
 
-int from_line_insert_row_of_3d_points(t_raster_data *raster_data, char *line, int row_number)
+int from_line_insert_row_of_3d_points(t_object *object, char *line, int row_number)
 {
 	t_3dpoint *row;
 	char **array_of_3dpoints;
@@ -42,19 +42,19 @@ int from_line_insert_row_of_3d_points(t_raster_data *raster_data, char *line, in
 
 	if (!(array_of_3dpoints = ft_split(line, ' ')))
 		return (0);
-	if (!(row = malloc (sizeof(*row) * raster_data->ncols)))
+	if (!(row = malloc (sizeof(*row) * object->ncols)))
 	{
 		ft_free_2d(array_of_3dpoints);
 		return (0);
 	}
 
 	i = 0;
-	while (i < raster_data->ncols)
+	while (i < object->ncols)
 	{
 		row[i] = create_3dpoint(i, row_number, atoi(array_of_3dpoints[i]));
 		i++;
 	}
-	raster_data->map[row_number] = row;
+	object->original[row_number] = row;
 	ft_free_2d(array_of_3dpoints);
 	return 1;
 }
@@ -67,14 +67,14 @@ int from_line_insert_row_of_3d_points(t_raster_data *raster_data, char *line, in
 ** dimensions array containing in each cell a 3dpoint (x, y, and z values).
 */
 
-int open_file_and_parse_data(char* file_name, t_raster_data *raster_data)
+int open_file_and_parse_data(char* file_name, t_object *object)
 {
 	int fd1;
 	char *next_line;
 	int current_row;
 	int result_gnl;
 
-	if (!(check_valid_input_data_file_and_fetch_size(file_name, raster_data)))
+	if (!(check_valid_input_data_file_and_fetch_size(file_name, object)))
 		return 0;
 	if ((fd1 = open(file_name, O_RDONLY, 0644)) == -1)
 		return (print_err("could not open data file given as parameter"));
@@ -82,7 +82,7 @@ int open_file_and_parse_data(char* file_name, t_raster_data *raster_data)
 	next_line = NULL;
 	while ((result_gnl = get_next_line(fd1, &next_line)) > 0)
 	{
-		if (!from_line_insert_row_of_3d_points(raster_data, next_line, current_row))
+		if (!from_line_insert_row_of_3d_points(object, next_line, current_row))
 		{
 			result_gnl = -1;
 			break;

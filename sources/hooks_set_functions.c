@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 18:34:58 by charmstr          #+#    #+#             */
-/*   Updated: 2024/01/31 23:05:15 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/10 22:49:16 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,27 +55,53 @@ int		deal_key_released(int key, t_fdf *fdf)
 {
 	fdf = (t_fdf *)fdf;
 
-	/*
+	//TO TAKE CONTROL OF THE CAMERA
+	if (key == K_SPACE)
+		fdf->world.motion.apply_to_camera = 0;
+
+	//YAW
+	if (key == K_L)
+		fdf->world.motion.yaw_right = 0;
+	if (key == K_J)
+		fdf->world.motion.yaw_left = 0;
+
+	//PITCH
+	if (key == K_I)
+		fdf->world.motion.pitch_up = 0;
+	if (key == K_K)
+		fdf->world.motion.pitch_down = 0;
+
+	//ROLL
+	if (key == K_U)
+		fdf->world.motion.roll_left = 0;
+	if (key == K_O)
+		fdf->world.motion.roll_right = 0;
+
+
+	//SHIFT MOTION = TRANSLATION
 	if (key == K_W)
-		fdf->player.move_forward = 0;
+		fdf->world.motion.shift_up = 0;
 	if (key == K_S)
-		fdf->player.move_backward = 0;
+		fdf->world.motion.shift_down = 0;
 	if (key == K_A)
-		fdf->player.shift_left = 0;
+		fdf->world.motion.shift_left = 0;
 	if (key == K_D)
-		fdf->player.shift_right = 0;
-	if (key == K_CTRL_LEFT)
-		fdf->player.bend_knees = 0;
+		fdf->world.motion.shift_right = 0;
+	if (key == K_E)
+		fdf->world.motion.shift_forward = 0;
+	if (key == K_Q)
+		fdf->world.motion.shift_backward = 0;
+
+	//reset WORLD
+	if (key == K_ENTER)
+		fdf->world.motion.reset_world = 0;
+
+	//zoom
+	/*
+		fdf->world.motion.zoom_in = 0;
+		fdf->world.motion.zoom_out = 0;
 		*/
 
-	if (key == K_RIGHT)
-		;//fdf->perspective.turn_right = 0;
-	if (key == K_LEFT)
-		;//fdf->perspective.turn_left = 0;
-	if (key == K_UP)
-		;//fdf->perspective.tilt_upward = 0;
-	if (key == K_DOWN)
-		;//fdf->perspective.tilt_downward = 0;
 	return (0);
 }
 
@@ -88,29 +114,51 @@ int		deal_key_released(int key, t_fdf *fdf)
 
 int		deal_key_pressed(int key, t_fdf *fdf)
 {
+	//STOP PROGRAM
 	if (key == K_ESC)
 		fdf->stop_program = 1;
-	/*
-	if (key == K_RIGHT)
-		fdf->player.turn_right = 1;
-	if (key == K_LEFT)
-		fdf->player.turn_left = 1;
-	if (key == K_W)
-		fdf->player.move_forward = 1;
-	if (key == K_S)
-		fdf->player.move_backward = 1;
+
+	//YAW
+	if (key == K_L)
+		fdf->world.motion.yaw_right = 1;
+	if (key == K_J)
+		fdf->world.motion.yaw_left = 1;
+
+	//PITCH
+	if (key == K_I)
+		fdf->world.motion.pitch_up = 1;
+	if (key == K_K)
+		fdf->world.motion.pitch_down = 1;
+
+	//ROLL
+	if (key == K_U)
+		fdf->world.motion.roll_left = 1;
+	if (key == K_O)
+		fdf->world.motion.roll_right = 1;
+
+	//SHIFT MOTION = TRANSLATION
 	if (key == K_A)
-		fdf->player.shift_left = 1;
+		fdf->world.motion.shift_left = 1;
 	if (key == K_D)
-		fdf->player.shift_right = 1;
-	if (key == K_UP)
-		fdf->player.tilt_upward = 1;
-	if (key == K_DOWN)
-		fdf->player.tilt_downward = 1;
-	if (key == K_CTRL_LEFT)
-		fdf->player.bend_knees = fdf->real_middle >> 2;
+		fdf->world.motion.shift_right = 1;
+	if (key == K_W)
+		fdf->world.motion.shift_up = 1;
+	if (key == K_S)
+		fdf->world.motion.shift_down = 1;
+	if (key == K_E)
+		fdf->world.motion.shift_forward = 1;
+	if (key == K_Q)
+		fdf->world.motion.shift_backward = 1;
+
+	//TAKE CONTROL OF THE CAMERA
 	if (key == K_SPACE)
-		fdf->player.jump = 1;
-		*/
+		fdf->world.motion.apply_to_camera = 1;
+
+	//RESET world
+	if (key == K_ENTER)
+		fdf->world.motion.reset_world = 1;
+
+	//zoom
+
 	return (0);
 }

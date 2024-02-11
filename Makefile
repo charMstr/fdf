@@ -6,7 +6,7 @@
 #    By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/27 17:46:05 by charmstr          #+#    #+#              #
-#    Updated: 2024/02/03 00:29:17 by charmstr         ###   ########.fr        #
+#    Updated: 2024/02/11 01:53:10 by charmstr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,8 @@ H_FILES = fdf\
 		  defines_fdf\
 		  structures_drawings\
 		  debug\
+		  matrix_operations\
+		  render\
 		  
 
 #H_FILES_BONUS = #somefile\
@@ -94,7 +96,9 @@ SRC_FILES = main\
 			error_handling\
 			hooks_set_functions\
 			exit_properly\
-			render\
+			rendering_loop\
+			render_vertices1\
+			render_vertices2\
 			image_create\
 			draw_square\
 			draw_line1\
@@ -104,6 +108,12 @@ SRC_FILES = main\
 			parse_map\
 			parse_map_assist\
 			debug\
+			init_world\
+			matrix_operations\
+			vectors_operations\
+			update_transformation_matrix\
+			render_fdf_style\
+			pixel_shadow_map\
 
 			#ft_printf\
 			

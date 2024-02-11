@@ -6,12 +6,13 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/02 16:51:30 by charmstr          #+#    #+#             */
-/*   Updated: 2024/01/31 23:23:46 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:06:48 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 #include "../includes/structures_drawings.h"
+#include <math.h>
 
 /*
 ** this file will handle the line drawing.
@@ -30,33 +31,28 @@
 **			0 -> to draw outside the img boundaries.
 */
 
-int		draw_line(t_img img, t_point p1, t_point p2, int color)
+void	draw_line(t_img * const img, t_2dpoint *p1, t_2dpoint *p2, int color)
 {
 	t_line	line;
 	int		i;
 
 	i = -1;
-	if (p1.x < 0 || p1.x >= img.width || p2.x < 0 || p2.x >= img.width \
-		|| p1.y < 0 || p1.y >= img.height || p2.y < 0 || p2.y >= img.height)
-		return (0);
-	line.x1 = p1.x;
-	line.x2 = p2.x;
-	line.y1 = p1.y;
-	line.y2 = p2.y;
+	line.x = p1->x;
+	line.y = p1->y;
 	line.color = color;
-	line.direction_slop_x = ft_sign(p2.x - p1.x);
-	line.direction_slop_y = ft_sign(p2.y - p1.y);
+	line.direction_slop_x = ft_sign(p2->x - p1->x);
+	line.direction_slop_y = ft_sign(p2->y - p1->y);
+	init_line_struct_for_bresenham(&line, p1, p2);
 	if (line.direction_slop_x && line.direction_slop_y)
-		draw_line_bresenham(img, line);
+		draw_line_bresenham(img, &line);
 	else if (!line.direction_slop_x)
-		while (++i < ft_abs(p2.y - p1.y))
-			color_pix(img, line.y1 + i * line.direction_slop_y, line.x1, \
+		while (++i < ft_abs(p2->y - p1->y))
+			color_pix(img, p1->y + i * line.direction_slop_y, p1->x, \
 					line.color);
 	else
-		while (++i < ft_abs(p2.x - p1.x))
-			color_pix(img, line.y1, line.x1 + i * line.direction_slop_x, \
+		while (++i < ft_abs(p2->x - p1->x))
+			color_pix(img, p1->y, p1->x + i * line.direction_slop_x, \
 					line.color);
-	return (1);
 }
 
 /*
@@ -72,29 +68,28 @@ int		draw_line(t_img img, t_point p1, t_point p2, int color)
 ** note: this is valid for the slop inferior to 1.
 */
 
-void	draw_line_bresenham(t_img img, t_line line)
+void	draw_line_bresenham(t_img * const img, t_line * const line)
 {
 	int	i;
 
 	i = -1;
-	init_line_struct_for_bresenham(&line);
-	while (++i < line.dx)
+	while (++i < line->dx)
 	{
-		color_pix(img, line.y1, line.x1, line.color);
-		if (line.p_error > 0)
+		color_pix(img, line->y, line->x, line->color);
+		if (line->p_error > 0)
 		{
-			line.p_error += line.delta_perror_pos;
-			if (!line.invert_step_axis)
-				line.y1 += line.direction_slop_y;
+			line->p_error += line->delta_perror_pos;
+			if (!line->invert_step_axis)
+				line->y += line->direction_slop_y;
 			else
-				line.x1 += line.direction_slop_x;
+				line->x += line->direction_slop_x;
 		}
 		else
-			line.p_error += line.delta_perror_neg;
-		if (!line.invert_step_axis)
-			line.x1 += line.direction_slop_x;
+			line->p_error += line->delta_perror_neg;
+		if (!line->invert_step_axis)
+			line->x += line->direction_slop_x;
 		else
-			line.y1 += line.direction_slop_y;
+			line->y += line->direction_slop_y;
 	}
 }
 
@@ -138,10 +133,10 @@ int		ft_abs(int a)
 **			axis one at a time(instead of the x abscisse).
 */
 
-void	init_line_struct_for_bresenham(t_line *line)
+void	init_line_struct_for_bresenham(t_line *line, t_2dpoint *p1, t_2dpoint * p2)
 {
-	line->dx = ft_abs(line->x2 - line->x1);
-	line->dy = ft_abs(line->y2 - line->y1);
+	line->dx = ft_abs(p2->x - p1->x);
+	line->dy = ft_abs(p2->y - p1->y);
 	if (line->dx >= line->dy)
 		line->invert_step_axis = 0;
 	else

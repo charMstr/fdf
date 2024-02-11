@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/02 18:30:34 by charmstr          #+#    #+#             */
-/*   Updated: 2024/01/31 23:21:03 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/10 23:37:43 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,19 @@
 /*
 ** note:	this function will cast the long string pointer into an pointer
 **			to int arrays. we change the four bytes at once. a pixel at a time.
+**
+** If a point is outside scope, we don't print it.
+** (the >= and <= -1 seems odd, but it is so that we dont draw on the edge of
+** the window)
 */
 
-void		color_pix(t_img img, int y, int x, int color)
+void		color_pix(t_img * const img, int y, int x, int color)
 {
-	int (*tab)[img.width];
+	int (*tab)[img->width];
 
-	tab = (void*)img.data_str;
+	tab = (void*)img->data_str;
+	if (y >= img->height - 1|| y <= 0 || x >= img->width - 1 || x <= 0)
+		return;
 	tab[y][x] = color;
 }
 
@@ -37,7 +43,7 @@ void		color_pix(t_img img, int y, int x, int color)
 **			inside the image address.
 */
 
-t_square	build_square(t_point p1, int width, int height, int color)
+t_square	build_square(t_2dpoint p1, int width, int height, int color)
 {
 	t_square square;
 
@@ -73,15 +79,15 @@ t_square	build_square(t_point p1, int width, int height, int color)
 ** 			0 -> tried to draw outside the img's bitmap.
 */
 
-int			draw_square(t_img img, t_square square)
+int			draw_square(t_img * const img, t_square square)
 {
 	int i;
 	int j;
 
 	i = 0;
-	if (square.x < 0 || square.x + square.width > img.width)
+	if (square.x < 0 || square.x + square.width > img->width)
 		return (0);
-	if (square.y < 0 || square.y + square.height > img.height)
+	if (square.y < 0 || square.y + square.height > img->height)
 		return (0);
 	while (i < square.height)
 	{
