@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/02 13:07:18 by charmstr          #+#    #+#             */
-/*   Updated: 2024/02/11 04:12:14 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/11 05:58:20 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ typedef struct	s_matrix44
 typedef struct	s_object
 {
 	t_3dpoint	**original;
-	float		delta_z_original; //= the span on z axis: max - min
-	t_2dpoint	**projected;
-	t_matrix44	transformation;
 	int			nrows;
 	int			ncols;
+	t_2dpoint	**projected;
+
+	t_matrix44	transformation;
+	float		delta_z_original; //= the span on z axis: max - min
+	t_3dpoint	center_of_gravity;
 }				t_object;
 
 

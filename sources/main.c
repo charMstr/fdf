@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 20:00:32 by charmstr          #+#    #+#             */
-/*   Updated: 2024/02/11 04:59:08 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/11 11:52:12 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ void fdf_set_parameters_and_start_loop(t_fdf *fdf)
 		exit_properly(fdf, EXIT_FAILURE);
 	if (!(create_pixel_shadow_array(&fdf->window)))
 		exit_properly(fdf, EXIT_FAILURE);
-	init_world_before_render(&fdf->world);
 	init_objects_metadata(&fdf->world.object);
+	init_world_before_render(&fdf->world);
 	set_speed_for_motions(&fdf->world.object, fdf);
 
 	mlx_loop(fdf->mlx_ptr);

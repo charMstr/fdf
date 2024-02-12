@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 19:13:23 by charmstr          #+#    #+#             */
-/*   Updated: 2024/02/11 04:28:29 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/12 17:28:49 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,9 @@ void 	update_projected_2dpoint(t_fdf *fdf, t_object *object, int row, int column
 	//cannot return here if we are drawing lines!!
 	//optimisation only for point cloud rendering
 	//if (projected_point->is_outside_canevas)
-	//	return projected_point;
+	//	return;
+	//we will return here anyway since a point outside canevas will be
+	//recalated.
 
 	remap_coordinates_to_ndc(projected_point, &fdf->world.camera);
 	remap_coordinates_to_window(projected_point, &fdf->window);

@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 21:01:51 by charmstr          #+#    #+#             */
-/*   Updated: 2024/02/11 03:37:40 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/12 17:21:43 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int		update_render_main(t_fdf *fdf)
 	//here do the drawings into the image.
 	//if (!some_funtion(*fdf, &n_img))
 	//	exit_properly(fdf, C3D_FAIL);
-	//render_fdf_style(fdf, &n_img);
 	reset_pixel_shadow_array(&fdf->window);
-	render_point_cloud_style(&n_img, fdf, &fdf->world.object);
+	//render_point_cloud_style(&n_img, fdf, &fdf->world.object);
+	render_fdf_style(fdf, &n_img);
 	//debug_shadow_pixel_array(&fdf->window);
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->window.win_ptr, n_img.img, 0, 0);
 	//debug_matrix44(&fdf->world.object.transformation);

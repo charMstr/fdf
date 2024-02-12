@@ -6,7 +6,7 @@
 /*   By: charmstr <charmstr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:18:46 by charmstr          #+#    #+#             */
-/*   Updated: 2024/02/11 00:37:14 by charmstr         ###   ########.fr       */
+/*   Updated: 2024/02/11 12:06:25 by charmstr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,55 @@
 #include "../includes/matrix_operations.h"
 #include "../includes/structures_drawings.h"
 #include <math.h>
+#include "../includes/debug.h"
 
 #include "../includes/render.h"
+
+/*
+** find object's center of gravity
+*/
+
+void	find_object_center_of_gravity(t_object *object)
+{
+	float number_of_points;
+	t_3dpoint center_of_gravity = {.x = 0.0, .y = 0.0, .z = 0.0};
+
+	for (int row = 0; row < object->nrows; row++)
+	{
+		for (int column = 0; column < object->ncols; column++)
+		{
+			center_of_gravity.x += object->original[row][column].x;
+			center_of_gravity.y += object->original[row][column].y;
+			center_of_gravity.z += object->original[row][column].z;
+		}
+	}
+	number_of_points = (float)(object->ncols * object->nrows);
+	center_of_gravity.x /= number_of_points;
+	center_of_gravity.y /= number_of_points;
+	center_of_gravity.z /= number_of_points;
+
+	object->center_of_gravity = center_of_gravity;
+}
 
 /*
 ** this function is bad since it alters the original data_points
 ** it will recenter the object on its "center of gravity".
 */
 //this could be done with a matrix on the object while rendering on each loop.
+
+
+void shift_center_of_data_to_center_of_gravity(t_object *object)
+{
+	for (int row = 0; row < object->nrows; row++)
+	{
+		for (int column = 0; column < object->ncols; column++)
+		{
+			object->original[row][column].x -= object->center_of_gravity.x;
+			object->original[row][column].y -= object->center_of_gravity.y;
+			object->original[row][column].z -= object->center_of_gravity.z;
+		}
+	}
+}
 
 void recenter_objects_data_around_self(t_object *object)
 {
@@ -129,7 +170,9 @@ void init_objects_metadata(t_object *object)
 {
 	object->delta_z_original = find_objects_delta_z(object);
 	fill_array_with_points_initialised_with_color_encoded(object);
-	recenter_objects_data_around_self(object);
+	find_object_center_of_gravity(object);
+	//recenter_objects_data_around_self(object);
+	shift_center_of_data_to_center_of_gravity(object);
 }
 
 void 	init_camera(t_camera *camera)
